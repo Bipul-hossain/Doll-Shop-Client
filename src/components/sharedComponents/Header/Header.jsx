@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 
 const Header = () => {
   return (
@@ -9,9 +10,15 @@ const Header = () => {
         </div>
         <div>
           <ul className="flex gap-3.5">
-            <li>Home</li>
+            <Link to="/">
+              <li>Home</li>
+            </Link>
             <li>About</li>
             <li>Contact us</li>
+
+            <Link to="/login">
+              <li>Login</li>
+            </Link>
           </ul>
         </div>
         {/* <div className="flex-1">

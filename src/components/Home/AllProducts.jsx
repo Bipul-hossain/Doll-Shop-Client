@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 
-const PopularProducts = () => {
-  const [popularProduct, setPopularProduct] = useState([]);
+const AllProducts = () => {
+  const [allProducts, setAllProducts] = useState([]);
   useEffect(() => {
-    const popularProduct = () => {
-      fetch("http://localhost:5000/api/product/popular")
+    const allProduct = () => {
+      fetch("http://localhost:5000/api/product")
         .then((res) => res.json())
-        .then((data) => setPopularProduct(data));
+        .then((data) => setAllProducts(data));
     };
-    return () => popularProduct();
+    return () => allProduct();
   }, []);
   return (
     <>
       <div className="flex justify-center my-28">
-        <h1 className="font-bold text-3xl">Popular Product</h1>
+        <h1 className="font-bold text-3xl">All Product</h1>
       </div>
       <div className="flex justify-center">
-        <div className="grid grid-cols-2 gap-10">
-          {popularProduct.map((product) => (
+        <div className="grid grid-cols-3 gap-10">
+          {allProducts.map((product) => (
             <div>
               <div className="card bg-base-100 w-96 shadow-sm">
                 <figure>
@@ -43,4 +43,4 @@ const PopularProducts = () => {
   );
 };
 
-export default PopularProducts;
+export default AllProducts;
