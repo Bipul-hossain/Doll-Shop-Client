@@ -1,9 +1,16 @@
 import React, { use, useEffect, useState } from "react";
 import { Link, useLoaderData, useParams } from "react-router";
+import useAuth from "../../hooks/useAuth";
+import useProductData from "../../hooks/useProductData";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { toast } from "react-toastify";
 
 const ProductDetails = () => {
   const [productDetails, setProductDetails] = useState(null);
+  const { loginUserInfo } = useAuth();
   const { id } = useParams();
+  const { card, setCard } = useProductData();
+  const axisPublic = useAxiosPublic();
   useEffect(() => {
     const data = () =>
       fetch(`http://localhost:5000/api/product/${id}`)
@@ -11,6 +18,38 @@ const ProductDetails = () => {
         .then((data) => setProductDetails(data));
     return () => data();
   }, []);
+
+  // Add to Card Handle
+  const handleCardFun = () => {
+    if (!loginUserInfo) {
+      return alert("Login first");
+    }
+
+    fetch("http://localhost:5000/api/card", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productId: productDetails._id,
+        email: loginUserInfo.email,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message) {
+          toast.warning(data.message);
+          return;
+        }
+        if (data._id) {
+          toast.success("Successfully Add To Card");
+          axisPublic
+            .get(`/api/card?email=${loginUserInfo.email}`)
+            .then((data) => setCard(data.data));
+        }
+      })
+      .catch((error) => alert(error.message));
+  };
   return (
     <div className="grid grid-cols-2 m-20 gap-24">
       <div>
@@ -31,7 +70,11 @@ const ProductDetails = () => {
             <button className="btn btn-primary w-[200px]">Buy Now</button>
           </Link>
           <Link>
-            <button className="btn btn-secondary w-[200px]">Add To Card</button>
+            <button
+              onClick={handleCardFun}
+              className="btn btn-secondary w-[200px]">
+              Add To Card
+            </button>
           </Link>
           <Link>
             <button className="btn btn-accent w-[200px]">Like</button>

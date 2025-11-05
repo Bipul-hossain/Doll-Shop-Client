@@ -19,13 +19,13 @@ const AllProducts = () => {
       <div className="flex justify-center">
         <div className="grid grid-cols-3 gap-10">
           {allProducts.map((product) => (
-            <div>
+            <div key={product._id}>
               <div className="card bg-base-100 w-96 shadow-sm">
                 <figure>
                   <img src={product.productImg} alt="Shoes" />
                 </figure>
                 <div className="card-body">
-                  <h2 className="card-title">Card Title</h2>
+                  <h2 className="card-title">{product.productName}</h2>
                   <p>{product.details}</p>
                   <p className="text-sm font-bold">Price: {product.price}</p>
                   <div className="card-actions justify-end">
