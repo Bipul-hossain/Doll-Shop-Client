@@ -11,19 +11,26 @@ const Card = () => {
   const useAxiosSecure = useAxios();
   const { card, setCard } = useProductData();
 
-  // useEffect(() => {
-  //   fetch(`http://localhost:5000/api/card?email=${loginUserInfo.email}`, {
-  //     method: "GET",
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setCard(data);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, [loginUserInfo]);
-  const handleDeleteCard = (id) => {
-    console.log("Delete id", id);
+  const handleIncrementQuantity = (id, value) => {
+    const info = {
+      quantity: value,
+    };
+    useAxiosSecure
+      .put(`/api/card/${id}`, info)
+      .then((data) => {
+        const newCard = [];
+        for (const cardData of card) {
+          if (cardData._id == id) {
+            cardData.quantity = value;
+          }
+          newCard.push(cardData);
+        }
+        setCard(newCard);
+      })
+      .catch((error) => error);
+  };
 
+  const handleDeleteCard = (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -77,12 +84,20 @@ const Card = () => {
                   Price: $ {cd.productDetails.price}
                 </div>
               </div>
-              <div className="list-col-grow">
-                <div>{cd.productDetails.productName}</div>
-                <div className="text-xs uppercase font-semibold opacity-60">
-                  Quantity: {cd.quantity}
-                </div>
+
+              <div>
+                <label className="text-xl uppercase">Quantity</label>
+                <input
+                  onChange={(e) =>
+                    handleIncrementQuantity(cd._id, e.target.value)
+                  }
+                  className="p-2 font-bold w-28 mx-3.5 text-center border border-gray-400 rounded-2xl"
+                  type="number"
+                  min={1}
+                  defaultValue={cd.quantity}
+                />
               </div>
+
               <button
                 onClick={() => handleDeleteCard(cd.productId)}
                 className="btn btn-square btn-ghost">

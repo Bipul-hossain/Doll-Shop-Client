@@ -8,7 +8,6 @@ const instance = axios.create({
 const useAxios = () => {
   const { loginUserInfo } = useAuth();
   instance.interceptors.request.use((config) => {
-    console.log(config);
     config.headers.authorization = `Bearer ${loginUserInfo.accessToken}`;
     return config;
   });

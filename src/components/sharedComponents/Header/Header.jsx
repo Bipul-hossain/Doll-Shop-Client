@@ -20,13 +20,6 @@ const Header = () => {
               <li>Home</li>
             </Link>
             <li>About</li>
-
-            <Link to="/login">
-              <li>Login</li>
-            </Link>
-            <Link to="/product/upload">
-              <li>Product Upload</li>
-            </Link>
           </ul>
         </div>
         {/* <div className="flex-1">
@@ -75,7 +68,7 @@ const Header = () => {
                   <span className="text-lg font-bold">{card.length} Items</span>
                   <span className="text-info">Subtotal: $999</span>
                   <div className="card-actions">
-                    <Link to="/product/card">
+                    <Link to="/dashboard/card">
                       <button className="btn btn-primary btn-block">
                         View cart
                       </button>
@@ -100,10 +93,10 @@ const Header = () => {
                 tabIndex="-1"
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
                 <li>
-                  <a className="justify-between">
-                    Profile
+                  <Link to="/dashboard" className="justify-between">
+                    Dashboard
                     <span className="badge">New</span>
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <a>Settings</a>

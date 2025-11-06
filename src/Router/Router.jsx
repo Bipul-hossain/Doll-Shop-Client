@@ -7,6 +7,10 @@ import Registration from "../components/Authorization/Registration/Registration"
 import Protected from "../components/Protected/Protected";
 import ProductUploadForm from "../components/PrivateRoute/ProductUploadForm";
 import Card from "../components/PrivateRoute/Card";
+import DeshboardLayout from "../Layout/DeshboardLayout";
+import Deshoboard from "../components/DeshboardComponent/Deshoboard/Deshoboard";
+import MyProduct from "../components/DeshboardComponent/MyProduct/MyProduct";
+import ProductEdit from "../components/DeshboardComponent/ProductEdite/ProductEdit";
 
 export const router = createBrowserRouter([
   {
@@ -30,8 +34,30 @@ export const router = createBrowserRouter([
         path: "/registration",
         Component: Registration,
       },
+    ],
+  },
+  {
+    path: "/dashboard",
+    Component: DeshboardLayout,
+    children: [
       {
-        path: "/product/upload",
+        index: true,
+        element: (
+          <Protected>
+            <Deshoboard></Deshoboard>
+          </Protected>
+        ),
+      },
+      {
+        path: "/dashboard/card",
+        element: (
+          <Protected>
+            <Card></Card>
+          </Protected>
+        ),
+      },
+      {
+        path: "/dashboard/product/upload",
         element: (
           <Protected>
             <ProductUploadForm></ProductUploadForm>
@@ -39,10 +65,18 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/product/card",
+        path: "/dashboard/product",
         element: (
           <Protected>
-            <Card></Card>
+            <MyProduct></MyProduct>
+          </Protected>
+        ),
+      },
+      {
+        path: "/dashboard/product/edit/:id",
+        element: (
+          <Protected>
+            <ProductEdit></ProductEdit>
           </Protected>
         ),
       },
